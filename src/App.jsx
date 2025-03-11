@@ -113,18 +113,6 @@ function App() {
           </div>
         </motion.nav>
 
-        {/* Welcome Message */}
-      {/* Welcome Message */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-center mt-24" // Increased margin for more space
-        >
-          <h1 className="text-4xl text-gray-800 font-bold">
-            Welcome to Hangman!
-          </h1>
-        </motion.div>
 
 
 

@@ -14,6 +14,7 @@ function HangMan( { step }) {
         <div className='w-[300px] h-[300px]'> 
             <img 
                 src={step >= images.length ? images[images.length - 1] : images[step]}
+                className="w-full h-full object-contain mix-blend-multiply"
             />
         </div>
     )
