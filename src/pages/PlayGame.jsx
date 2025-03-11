@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Maskedtext from "../components/MaskedText/MaskedText";
 import LetterButtons from "../components/LetterButtons/LetterButtons";
 import { useContext, useState, useEffect } from "react";
@@ -8,10 +8,13 @@ import { Lightbulb } from "lucide-react";
 
 function PlayGame() {
     const { state } = useLocation();
+    const navigate = useNavigate();
     const { word, setWord } = useContext(WordContext);
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [step, setStep] = useState(0);
-    const [hint, setHint] = useState(null); // State to store hint
+    const [hint, setHint] = useState(null);
+    const [gameOver, setGameOver] = useState(false);
+    const [gameResult, setGameResult] = useState(null);
 
     useEffect(() => {
         if (state?.wordSelected) {
@@ -19,20 +22,48 @@ function PlayGame() {
         }
     }, [state, setWord]);
 
+    // Check for win/loss condition
+    useEffect(() => {
+        if (step >= 7) {
+            setGameOver(true);
+            setGameResult("You lost! 😢");
+        } else if (word?.value.split('').every((letter) => guessedLetters.includes(letter.toUpperCase()))) {
+            setGameOver(true);
+            setGameResult("You won! 🎉");
+        }
+    }, [guessedLetters, step, word]);
+
     function handleLetterClick(letter) {
+        if (gameOver){
+            return;
+        }
+
         if (word?.value.toUpperCase().includes(letter)) {
             console.log("Correct");
         } else {
             console.log("Wrong");
             setStep(step + 1);
         }
-        setGuessedLetters([...guessedLetters, letter]);
+
+        setGuessedLetters((prev) => [...prev, letter]);
     }
 
     function handleHintClick() {
         if (word?.hint) {
             setHint(word.hint);
         }
+    }
+
+    // Reset game state and load new word
+    function handlePlayAgain() {
+        setGuessedLetters([]);
+        setStep(0);
+        setGameOver(false);
+        setGameResult(null);
+        setHint(null);
+
+        // Navigate to home or word selection screen to get a new word
+        navigate('/'); // Adjust the path based on your routing structure
     }
 
     return (
@@ -79,6 +110,31 @@ function PlayGame() {
                             />
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Pop-up Modal for Win/Loss */}
+            {gameOver && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40">
+                    <div className="bg-white border-2 border-purple-300 shadow-lg rounded-xl flex flex-col items-center justify-center p-6 w-[350px]">
+                        {/* Text */}
+                        <h2 className={`text-lg font-bold text-center ${gameResult.includes("won") ? "text-green-500" : "text-red-500"}`}>
+                            {gameResult}
+                        </h2>
+                        {gameResult.includes("lost") && (
+                            <p className="text-gray-500 text-center mt-2">
+                                The correct word was: <span className="font-bold text-black">{word.value}</span>
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Play Again Button */}
+                    <button 
+                        onClick={handlePlayAgain}
+                        className="flex items-center gap-2 px-6 py-2 rounded-xl bg-purple-500 text-white font-medium shadow-md border border-purple-400 hover:bg-purple-600 transition-transform transform hover:scale-105 absolute bottom-20"
+                    >
+                        Play Again
+                    </button>
                 </div>
             )}
         </>
