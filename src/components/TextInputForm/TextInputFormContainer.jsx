@@ -3,55 +3,65 @@ import TextInputForm from "./TextInputForm";
 import { useNavigate } from "react-router-dom";
 
 function TextInputFormContainer() {
-
     const [inputType, setInputType] = useState("password");
     const [value, setValue] = useState("");
+    const [hint, setHint] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
 
-    const navigate = useNavigate(); // useNavigate is a hook that returns a navigate function
+    const navigate = useNavigate();
 
     function handleFormSubmit(event) {
         event.preventDefault();
-        console.log("Form submitted", value);
-        if(value) {
-            // if we have something in value then we want to go to the play page
-            navigate(`/play`, { state: { wordSelected: value } });
+        if (value) {
+            navigate(`/play`, { state: { wordSelected: value, hint: hint } });
         }
     }
 
     function handleTextInputChange(event) {
-        console.log("Text input changed");
-        console.log(event.target.value);
-        setValue(event.target.value);
+        const inputValue = event.target.value;
+
+        if (/^[a-zA-Z]*$/.test(inputValue) || inputValue === "") {
+            if (inputValue.length <= 26) {
+                setValue(inputValue);
+            }
+        } else {
+            // ❌ Show custom alert popup
+            setAlertMessage("Only alphabetic characters (A-Z) are allowed");
+            setTimeout(() => setAlertMessage(""), 3000);
+        }
+    }
+
+    function handleHintChange(event) {
+        setHint(event.target.value);
     }
 
     function handleShowHideClick() {
-        console.log("Show/Hide button clicked");
-        if (inputType === "password") {
-            setInputType("text")
-        } else {
-            setInputType("password");
-        }
-        console.log(inputType);
-        
+        setInputType((prev) => (prev === "password" ? "text" : "password"));
     }
-
 
     return (
         <>
+            <div className="border border-purple-300 rounded-lg p-6 shadow-md" style={{
+                            backgroundColor: 'rgba(245, 246, 246, 0.5)', // Same background as navbar
+                        }}> {/* ✅ Added border and padding */}
+            {alertMessage && (
+                <div className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md animate-fadeInOut z-50">
+                    {alertMessage}
+                </div>
+            )}
+
             <TextInputForm 
                 inputType={inputType}
-                handleFormSubmit={handleFormSubmit} 
-                handleTextInputChange={handleTextInputChange} 
+                handleFormSubmit={handleFormSubmit}
+                handleTextInputChange={handleTextInputChange}
                 value={value}
                 handleShowHideClick={handleShowHideClick}
+                hint={hint}
+                handleHintChange={handleHintChange}
             />
-
-
-
+        </div>
         </>
-        
     );
 }
-
 
 export default TextInputFormContainer;
