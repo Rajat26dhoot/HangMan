@@ -13,5 +13,5 @@ const getButtonStyling = (styleType) => {
     }
   };
   
-  export default getButtonStyling;
+export default getButtonStyling;
   
