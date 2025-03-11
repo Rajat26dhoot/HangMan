@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Maskedtext from "../components/MaskedText/MaskedText";
 import LetterButtons from "../components/LetterButtons/LetterButtons";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import HangMan from "../components/HangMan/HangMan";
 import { WordContext } from "../context/WordContext";
 import { Lightbulb } from "lucide-react";
@@ -16,6 +16,10 @@ function PlayGame() {
     const [gameOver, setGameOver] = useState(false);
     const [gameResult, setGameResult] = useState(null);
 
+    // Load sound files
+    const winSound = useRef(new Audio("/src/assets/Sound/win.mp3"));
+    const loseSound = useRef(new Audio("/src/assets/Sound/lose.mp3"));
+
     useEffect(() => {
         if (state?.wordSelected) {
             setWord({ value: state.wordSelected, hint: state.wordHint });
@@ -27,22 +31,29 @@ function PlayGame() {
         if (step >= 7) {
             setGameOver(true);
             setGameResult("You lost! 😢");
+            playSound(loseSound.current);
         } else if (word?.value.split('').every((letter) => guessedLetters.includes(letter.toUpperCase()))) {
             setGameOver(true);
             setGameResult("You won! 🎉");
+            playSound(winSound.current);
         }
     }, [guessedLetters, step, word]);
 
+    // Function to play sound
+    function playSound(sound) {
+        sound.pause(); // Stop any previous sound
+        sound.currentTime = 0; // Reset to the beginning
+        sound.play();
+    }
+
     function handleLetterClick(letter) {
-        if (gameOver){
-            return;
-        }
+        if (gameOver) return;
 
         if (word?.value.toUpperCase().includes(letter)) {
             console.log("Correct");
         } else {
             console.log("Wrong");
-            setStep(step + 1);
+            setStep((prevStep) => prevStep + 1);
         }
 
         setGuessedLetters((prev) => [...prev, letter]);
@@ -61,8 +72,6 @@ function PlayGame() {
         setGameOver(false);
         setGameResult(null);
         setHint(null);
-
-        // Navigate to home or word selection screen to get a new word
         navigate('/'); // Adjust the path based on your routing structure
     }
 
