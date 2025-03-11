@@ -1,0 +1,29 @@
+/* Existing styles... */
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Adjust font size for mobile */
+    }
+
+    .container {
+        padding: 10px; /* Adjust padding for mobile */
+    }
+
+    .header, .footer {
+        text-align: center; /* Center align header and footer */
+    }
+
+    .nav {
+        display: block; /* Stack navigation items vertically */
+    }
+
+    /* Add more styles as needed for other elements */
+}
+
+.container {
+    width: 100%; /* Use 100% width for containers */
+    max-width: 1200px; /* Set a max width */
+}
+
+/* Existing styles... */ 

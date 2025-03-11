@@ -6,15 +6,24 @@ import './style.css';
 
 function Home() {
     const { setWordList, setWord } = useContext(WordContext);
+    
+    
 
     async function fetchWords() {
         const response = await fetch('http://localhost:3000/words');
         const data = await response.json();
 
         setWordList([...data]);
+        
 
         const randomIndex = Math.floor(Math.random() * data.length);
-        setWord(data[randomIndex].wordValue);
+        const selectedWord = data[randomIndex];
+        
+        setWord({
+            value: selectedWord.wordValue,
+            hint: selectedWord.wordHint
+        });
+
     }
 
     useEffect(() => {

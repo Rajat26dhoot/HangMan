@@ -13,9 +13,10 @@ function TextInputFormContainer() {
     function handleFormSubmit(event) {
         event.preventDefault();
         if (value) {
-            navigate(`/play`, { state: { wordSelected: value, hint: hint } });
+            navigate(`/play`, { state: { wordSelected: value, wordHint: hint } });
         }
     }
+    
 
     function handleTextInputChange(event) {
         const inputValue = event.target.value;
