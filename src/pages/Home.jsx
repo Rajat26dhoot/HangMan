@@ -8,7 +8,7 @@ function Home() {
     const { setWordList, setWord } = useContext(WordContext);
     
     async function fetchWords() {
-        const response = await fetch('http://localhost:3001/words');
+        const response = await fetch('/api/words');
         const data = await response.json();
 
         setWordList([...data]);
