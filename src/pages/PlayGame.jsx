@@ -26,7 +26,6 @@ function PlayGame() {
         }
     }, [state, setWord]);
 
-    // Check for win/loss condition
     useEffect(() => {
         if (step >= 7) {
             setGameOver(true);
@@ -39,10 +38,9 @@ function PlayGame() {
         }
     }, [guessedLetters, step, word]);
 
-    // Function to play sound
     function playSound(sound) {
-        sound.pause(); // Stop any previous sound
-        sound.currentTime = 0; // Reset to the beginning
+        sound.pause();
+        sound.currentTime = 0;
         sound.play();
     }
 
@@ -65,36 +63,36 @@ function PlayGame() {
         }
     }
 
-    // Reset game state and load new word
     function handlePlayAgain() {
         setGuessedLetters([]);
         setStep(0);
         setGameOver(false);
         setGameResult(null);
         setHint(null);
-        navigate('/'); // Adjust the path based on your routing structure
+        navigate('/'); 
     }
 
     return (
         <>
             {word?.value && (
-                <div className="flex flex-col gap-y-6">
+                <div className="flex flex-col gap-y-6 p-4">
                     {/* Top div - Hint button and MaskedText */}
-                    <div className="flex justify items-center gap-x-20">
-                        {/* Left side - Hint button */}
-                        <button 
-                            onClick={handleHintClick} 
-                            className="flex items-center gap-2 bg-orange-400 text-white px-4 py-2 rounded-full border-2 border-orange-400"
-                        >
-                            <Lightbulb size={20} />
-                            Hint
-                        </button>
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                    {/* Left side - Hint button */}
+                    <button 
+                        onClick={handleHintClick} 
+                        className="flex items-center gap-2 bg-orange-400 text-white px-4 py-2 rounded-full border-2 border-orange-400 hover:bg-orange-500 transition"
+                    >
+                        <Lightbulb size={20} />
+                        Hint
+                    </button>
 
-                        {/* Right side - MaskedText */}
-                        <div className="pl-80">
-                            <Maskedtext text={word.value} guessedLetters={guessedLetters} />
+                    {/* Right side - MaskedText */}
+                    <div className="flex-1 min-w-0 flex justify-center md:justify-center">
+                        <Maskedtext text={word.value} guessedLetters={guessedLetters} />
                         </div>
                     </div>
+
 
                     {/* Hint display */}
                     {hint && (
@@ -104,14 +102,14 @@ function PlayGame() {
                     )}
 
                     {/* Bottom div - Hangman and LetterButtons */}
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-6">
                         {/* Left side - Hangman */}
                         <div className="flex-shrink-0">
                             <HangMan step={step} />
                         </div>
 
                         {/* Right side - Centered LetterButtons */}
-                        <div className="flex flex-wrap justify-center gap-0.5 flex-grow">
+                        <div className="flex flex-wrap justify-center gap-1 flex-grow">
                             <LetterButtons 
                                 text={word.value} 
                                 guessedLetters={guessedLetters} 
@@ -125,8 +123,8 @@ function PlayGame() {
             {/* Pop-up Modal for Win/Loss */}
             {gameOver && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40">
-                    <div className="bg-white border-2 border-purple-300 shadow-lg rounded-xl flex flex-col items-center justify-center p-6 w-[350px]">
-                        {/* Text */}
+                    <div className="bg-white border-2 border-purple-300 shadow-lg rounded-xl flex flex-col items-center justify-center p-6 w-full max-w-[350px] sm:max-w-[400px]">
+                        {/* Result text */}
                         <h2 className={`text-lg font-bold text-center ${gameResult.includes("won") ? "text-green-500" : "text-red-500"}`}>
                             {gameResult}
                         </h2>
@@ -135,15 +133,15 @@ function PlayGame() {
                                 The correct word was: <span className="font-bold text-black">{word.value}</span>
                             </p>
                         )}
+                        
+                        {/* Play Again Button */}
+                        <button 
+                            onClick={handlePlayAgain}
+                            className="mt-4 px-6 py-2 rounded-xl bg-purple-500 text-white font-medium shadow-md border border-purple-400 hover:bg-purple-600 transition-transform transform hover:scale-105"
+                        >
+                            Play Again
+                        </button>
                     </div>
-
-                    {/* Play Again Button */}
-                    <button 
-                        onClick={handlePlayAgain}
-                        className="flex items-center gap-2 px-6 py-2 rounded-xl bg-purple-500 text-white font-medium shadow-md border border-purple-400 hover:bg-purple-600 transition-transform transform hover:scale-105 absolute bottom-20"
-                    >
-                        Play Again
-                    </button>
                 </div>
             )}
         </>

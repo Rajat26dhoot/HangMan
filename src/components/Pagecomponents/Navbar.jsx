@@ -7,11 +7,10 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
 
-  // Use ref for timeout to avoid stale closure issues
   const timeoutRef = useRef(null);
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setShowMenu(false), 1000); // 1 second delay
+    timeoutRef.current = setTimeout(() => setShowMenu(false), 1000);
   };
 
   const handleMouseEnter = () => {
@@ -32,13 +31,13 @@ const Navbar = () => {
         backgroundColor: 'rgba(245, 246, 246, 0.56)',
       }}
     >
-      <div className="max-w-6xl mx-auto flex items-center py-4 px-6">
+      <div className="max-w-6xl mx-auto flex items-center justify-between py-4 px-4 md:px-6">
         {/* Hangman Logo in Center */}
         <div className="flex-grow flex justify-center">
           {['H', 'A', 'N', 'G', 'M', 'A', 'N'].map((letter, index) => (
             <div
               key={index}
-              className={`w-10 h-10 flex items-center justify-center rounded-full text-white font-bold ${
+              className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-white font-bold ${
                 [
                   'bg-blue-500',
                   'bg-yellow-400',
@@ -55,58 +54,53 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Settings Button on Right */}
         <div
-          className="relative right-0 left-40"
+          className="relative md:right-[-140px]" // Shift container to the left on desktop
           onMouseLeave={handleMouseLeave}
           onMouseEnter={handleMouseEnter}
         >
           <button
             onClick={() => setShowMenu(!showMenu)}
-            className="text-gray-800 hover:text-black transition duration-300"
+            className="text-gray-800 hover:text-black transition duration-300 md:mr-2"
           >
-            <Settings className="w-7 h-7" />
+            <Settings className="w-6 h-6 md:w-7 md:h-7" />
           </button>
           {showMenu && (
-            <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-300 shadow-lg rounded-lg p-4">
-              <div className="flex justify-between items-center mb-2">
-                <button
-                  onClick={() => {
-                    navigate('/');
-                    setShowMenu(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black"
-                >
-                  Home
-                </button>
-              </div>
+            <div className="absolute right-0 w-48 md:w-64 bg-white border border-gray-300 shadow-lg rounded-lg p-3">
+              <button
+                onClick={() => {
+                  navigate('/');
+                  setShowMenu(false);
+                }}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black transition"
+              >
+                Home
+              </button>
               <hr className="my-2 border-gray-300" />
-              <div className="flex justify-between items-center mb-2">
-                <button
-                  onClick={() => {
-                    navigate('/start');
-                    setShowMenu(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black"
-                >
-                  Start
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  navigate('/start');
+                  setShowMenu(false);
+                }}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black transition"
+              >
+                Start
+              </button>
               <hr className="my-2 border-gray-300" />
-              <div className="flex justify-between items-center mb-2">
-                <button
-                  onClick={() => {
-                    navigate('/play');
-                    setShowMenu(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black"
-                >
-                  Play
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  navigate('/play');
+                  setShowMenu(false);
+                }}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black transition"
+              >
+                Play
+              </button>
             </div>
           )}
         </div>
+
+
       </div>
     </motion.nav>
   );

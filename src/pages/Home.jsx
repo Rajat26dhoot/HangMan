@@ -7,15 +7,12 @@ import './style.css';
 function Home() {
     const { setWordList, setWord } = useContext(WordContext);
     
-    
-
     async function fetchWords() {
-        const response = await fetch('http://localhost:3000/words');
+        const response = await fetch('http://localhost:3001/words');
         const data = await response.json();
 
         setWordList([...data]);
         
-
         const randomIndex = Math.floor(Math.random() * data.length);
         const selectedWord = data[randomIndex];
         
@@ -23,9 +20,8 @@ function Home() {
             value: selectedWord.wordValue,
             hint: selectedWord.wordHint
         });
-
     }
-
+    
     useEffect(() => {
         fetchWords();
     }, []);
@@ -37,21 +33,21 @@ function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-center mt-24 pb-10"
+                className="text-center mt-16 md:mt-24 pb-8 md:pb-10"
             >
-                <h1 className="text-4xl text-gray-800 font-bold">
+                <h1 className="text-3xl md:text-4xl text-gray-800 font-bold">
                     Welcome to Hangman!
                 </h1>
             </motion.div>
 
             {/* Game Modes */}
-            <div className="flex gap-4 p-4">
+            <div className="flex flex-wrap justify-center gap-4 p-4">
                 {/* Single Player - Timed */}
-                <Link to="/play" className="w-full">
+                <Link to="/play" className="w-full sm:w-[320px] md:w-[360px]">
                     <div 
-                        className="flex items-center border border-purple-300 rounded-lg p-4 shadow-md"
+                        className="flex items-center border border-purple-300 rounded-lg p-4 shadow-md hover:shadow-lg transition duration-200"
                         style={{
-                            backgroundColor: 'rgba(245, 246, 246, 0.8)', // Same background as navbar
+                            backgroundColor: 'rgba(245, 246, 246, 0.8)',
                         }}
                     >
                         <div className="bg-purple-500 text-black p-3 rounded-full">
@@ -65,11 +61,11 @@ function Home() {
                 </Link>
 
                 {/* Single Player - Untimed */}
-                <Link to="/start" className="w-full">
+                <Link to="/start" className="w-full sm:w-[320px] md:w-[360px]">
                     <div 
-                        className="flex items-center border border-yellow-300 rounded-lg p-4 shadow-md"
+                        className="flex items-center border border-yellow-300 rounded-lg p-4 shadow-md hover:shadow-lg transition duration-200"
                         style={{
-                            backgroundColor: 'rgba(245, 246, 246, 0.8)', // Same background as navbar
+                            backgroundColor: 'rgba(245, 246, 246, 0.8)',
                         }}
                     >
                         <div className="bg-yellow-400 text-white p-3 rounded-full">
