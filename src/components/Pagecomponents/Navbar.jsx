@@ -84,7 +84,7 @@ const Navbar = () => {
                 }}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black transition"
               >
-                Start
+                Multi Player
               </button>
               <hr className="my-2 border-gray-300" />
               <button
@@ -94,7 +94,7 @@ const Navbar = () => {
                 }}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-black transition"
               >
-                Play
+                Single Player
               </button>
             </div>
           )}

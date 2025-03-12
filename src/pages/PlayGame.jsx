@@ -17,8 +17,9 @@ function PlayGame() {
     const [gameResult, setGameResult] = useState(null);
 
     // Load sound files
-    const winSound = useRef(new Audio("/src/assets/Sound/win.mp3"));
-    const loseSound = useRef(new Audio("/src/assets/Sound/lose.mp3"));
+    const winSound = useRef(new Audio("/public/Sound/win.mp3"));
+    const loseSound = useRef(new Audio("/public/Sound/lose.mp3"));
+
 
     useEffect(() => {
         if (state?.wordSelected) {
@@ -45,7 +46,9 @@ function PlayGame() {
     }
 
     function handleLetterClick(letter) {
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
 
         if (word?.value.toUpperCase().includes(letter)) {
             console.log("Correct");
