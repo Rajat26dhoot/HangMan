@@ -17,8 +17,8 @@ function PlayGame() {
     const [gameResult, setGameResult] = useState(null);
 
     // Load sound files
-    const winSound = useRef(new Audio("/public/Sound/win.mp3"));
-    const loseSound = useRef(new Audio("/public/Sound/lose.mp3"));
+    const winSound = useRef(new Audio("/Sound/win.mp3"));
+    const loseSound = useRef(new Audio("/Sound/lose.mp3"));
 
 
     useEffect(() => {
