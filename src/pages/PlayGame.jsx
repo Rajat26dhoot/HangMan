@@ -20,6 +20,14 @@ function PlayGame() {
     const winSound = useRef(new Audio("/Sound/win.mp3"));
     const loseSound = useRef(new Audio("/Sound/lose.mp3"));
 
+    useEffect(() => {
+        winSound.current.src = '/Sound/win.mp3';
+        winSound.current.crossOrigin = 'anonymous';
+    
+        loseSound.current.src = '/Sound/lose.mp3';
+        loseSound.current.crossOrigin = 'anonymous';
+    }, []);
+
 
     useEffect(() => {
         if (state?.wordSelected) {
